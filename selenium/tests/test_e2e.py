@@ -4,8 +4,9 @@ from selenium.webdriver.support import expected_conditions
 from selenium import webdriver
 
 import time
+import pytest
 
-
+@pytest.mark.usefixtures("setup")
 class Test_E2E:
 
     def test_chrome(self):
@@ -49,6 +50,8 @@ class Test_E2E:
 
         time.sleep(2)
 
+        driver.close()
+
     def test_edge(self):
         options = webdriver.EdgeOptions()
         driver = webdriver.Remote(options=options)
@@ -90,6 +93,8 @@ class Test_E2E:
 
         time.sleep(2)
 
+        driver.close()
+
     def test_firefox(self):
         options = webdriver.FirefoxOptions()
         driver = webdriver.Remote(options=options)
@@ -130,3 +135,5 @@ class Test_E2E:
         assert "Success! Thank you!" in alert_msg
 
         time.sleep(2)
+
+        driver.close()

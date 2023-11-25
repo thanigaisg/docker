@@ -1,3 +1,4 @@
+import subprocess
 import pytest
 import os
 import time
@@ -5,14 +6,14 @@ import time
 
 driver = None
 
+
 @pytest.fixture(scope='class')
 def setup(request):
-    request.cls.os.system("call ../start_dockergrid.bat")
-    request.cls.time.sleep(120)
-    yield
-    global driver
-    driver = request.cls.driver
-    driver.close()
-    request.cls.os.system("call ../stop_dockergrid.bat")
-    request.cls.os.system("taskkill /f /im cmd.exe")
+    subprocess.Popen(["call", "../start_dockergrid.bat"], shell=True, cwd=os.getcwd())
+    print("Docker Grid Started")
+    time.sleep(60)
 
+    yield
+
+    subprocess.Popen(["call", "../stop_dockergrid.bat"], shell=True, cwd=os.getcwd())
+    print("Docker Grid Stopped")
